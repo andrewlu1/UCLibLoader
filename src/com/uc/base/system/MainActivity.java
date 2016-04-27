@@ -13,8 +13,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		int ret = Test.hello(2, 5);
-		Log.i("JNI Test", "2+5=" + ret);
+		//int ret = Test.hello(2, 5);
+		//Log.i("JNI Test", "2+5=" + ret);
 
 	}
 

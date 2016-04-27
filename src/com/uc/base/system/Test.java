@@ -8,6 +8,6 @@ public class Test {
 
 	static {
 		// 这里直接用UCLibLoader代替System即可.
-		UCLibLoader.loadLibrary("mmath");
+		//UCLibLoader.loadLibrary("mmath");
 	}
 }
