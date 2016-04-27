@@ -25,7 +25,20 @@ public class UCLibLoader {
 		}
 	}
 
+	public static synchronized void load(String absLibPath) {
+		if (LOADEDLIBS_LIST.contains(absLibPath))
+			return;
+		LOADEDLIBS_LIST.add(absLibPath);
+		if (Build.VERSION.SDK_INT >= 23) {
+			nativeLoad(absLibPath);
+		} else {
+			System.load(absLibPath);
+		}
+	}
+
 	private native static void nativeLoadLibrary(String libName);
+
+	private native static void nativeLoad(String absLibPath);
 
 	static {
 		if (Build.VERSION.SDK_INT >= 23) {

@@ -33,15 +33,31 @@ JNIEXPORT void Java_com_uc_base_system_UCLibLoader_nativeLoadLibrary(
 		JNIEnv* env, jobject thiz, jstring libName) {
 
 	const char* libNameC = env->GetStringUTFChars(libName, 0);
-	const char* fullLibName = findLibrary(env, libNameC);
-
-	if (fullLibName == NULL) {
-		LOGV("JNI can not find Library:%s", libNameC);
+	const char* fullLibNameC = findLibrary(env, libNameC);
+	if (fullLibNameC == NULL) {
+		LOGV("JNI can not find Library:%s", fullLibNameC);
 		return;
 	}
-
 	dlerror();
-	bool ret = registerNatives(env, fullLibName);
+	bool ret = registerNatives(env, fullLibNameC);
+	if (ret) {
+		LOGV("JNI onLoad custom lib success.");
+	} else {
+		const char* error = dlerror();
+		LOGV("JNI onLoad custom lib failed:%s", error);
+	}
+}
+
+JNIEXPORT void Java_com_uc_base_system_UCLibLoader_nativeLoad(JNIEnv* env,
+		jobject thiz, jstring fullLibName) {
+
+	const char* fullLibNameC = env->GetStringUTFChars(fullLibName, 0);
+	if (fullLibName == NULL) {
+		LOGV("JNI can not find Library:%s", fullLibNameC);
+		return;
+	}
+	dlerror();
+	bool ret = registerNatives(env, fullLibNameC);
 	if (ret) {
 		LOGV("JNI onLoad custom lib success.");
 	} else {
